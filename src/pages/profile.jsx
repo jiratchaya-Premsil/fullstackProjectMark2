@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import RecipyThumbnail from './components/recipyThumbnailCard';
-import CharacterCard from './components/CharacterCard';
-import ThemeToggle from './components/ThemeToggle';
+import RecipyThumbnail from '../components/recipyThumbnailCard';
+import CharacterCard from '../components/CharacterCard';
+import { useTheme } from '../context/ThemeContext';
+
 export default function Profile() {
+  const {darkMode, toggleTheme} = useTheme();
     const [currentpage, setCurrentPage] = useState("MyRecipy")
     const [foods, setFoods] = useState([]);
 
@@ -31,7 +33,7 @@ export default function Profile() {
         <div className="w-full flex flex-row ">
 
     {/* LEFT SIDE */}
-    <div className=" fixed flex flex-col items-center flex-shrink-0 w-56 px-4 py-8">
+    <div className="gap-2 fixed flex flex-col items-center flex-shrink-0 w-56 px-4 py-8">
       <img
         src="profile.png"
         className="rounded-full h-48 w-48 object-cover"
@@ -40,11 +42,17 @@ export default function Profile() {
         Jiratchaya Premsil
       </h2>
       <CharacterCard/>
-      
+
+                    <button
+  onClick={toggleTheme}
+  className="flex px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-300"
+>
+  {darkMode ? "Light Mode" : "Dark Mode"}
+</button>
     </div>
 
     {/* RIGHT SIDE */}
-    <div className="flex-1 p-4 pl-58">
+    <div className="ml-60 flex-1">
       <div className="flex flex-row  mb-4 ">
         <button  className={
       `w-full text-center p-2 rounded transition  ${
