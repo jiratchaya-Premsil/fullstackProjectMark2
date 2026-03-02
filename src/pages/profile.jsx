@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import RecipyThumbnail from '../components/recipyThumbnailCard';
 import CharacterCard from '../components/CharacterCard';
 import { useTheme } from '../context/ThemeContext';
-
+import ColorPicker from '../components/ColorPicker';
 export default function Profile() {
   const {darkMode, toggleTheme} = useTheme();
     const [currentpage, setCurrentPage] = useState("MyRecipy")
@@ -42,6 +42,7 @@ export default function Profile() {
         Jiratchaya Premsil
       </h2>
       <CharacterCard/>
+      <ColorPicker/>
 
                     <button
   onClick={toggleTheme}
@@ -57,15 +58,15 @@ export default function Profile() {
         <button  className={
       `w-full text-center p-2 rounded transition  ${
         currentpage== "likePage"
-          ? "bg-yellow-100 "
-          : "hover:bg-yellow-50"
+          ? "bg-primary/40 "
+          : "hover:bg-primary/10"
       }`
     }  onClick={() => setCurrentPage("likePage")}>Liked recipe</button>
         <button className={
       `w-full text-center p-2 rounded  transition  ${
         currentpage== "MyRecipy"
-          ? "bg-yellow-100 "
-          : "hover:bg-yellow-50"
+       ? "bg-primary/40 "
+          : "hover:bg-primary/10"
       }`
     }
      onClick={() => setCurrentPage("MyRecipy")}>My recipe</button>

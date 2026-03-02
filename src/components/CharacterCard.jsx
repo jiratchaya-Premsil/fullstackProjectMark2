@@ -40,7 +40,7 @@ const [random, setRandom] = useState(0);
              {tablerandom[random].category}
              </p>
             <button onClick={randomfunc}
-            className = "rounded-md bg-amber-500 px-4 py-2 text-white shadow-md transition duration-150 ease-in-out hover:bg-amber-600 focus:outline-none focus:ring-2 "> random pick</button>
+            className = "rounded-md bg-primary px-4 py-2 text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-dark focus:outline-none focus:ring-2 "> random pick</button>
         </div>
     );
 };
