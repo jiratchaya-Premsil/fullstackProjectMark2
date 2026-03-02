@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 const RecipyThumbnail = ({ data }) => {
 
 
@@ -18,9 +19,13 @@ const RecipyThumbnail = ({ data }) => {
                     ))}
 
         </div>
-  <button className="text-white bg-primary hover:bg-primary-dark px-4 py-2 rounded-md font-bold text-sm transition-colors duration-300">
+        <Link to={`/recipy/${data.id}`}>
+ <button className="text-white bg-primary hover:bg-primary-dark px-4 py-2 rounded-md font-bold text-sm transition-colors duration-300">
     View
   </button>
+
+        </Link>
+
 </div>
     </div>
     );
