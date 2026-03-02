@@ -9,6 +9,7 @@ export default {
     extend: {
       colors: {
         primary: "rgb(var(--primary) / <alpha-value>)",
+        "primary-dark": "rgb(var(--primary-dark) / <alpha-value>)",
       }
     },
   },
