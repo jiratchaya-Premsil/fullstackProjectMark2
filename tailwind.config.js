@@ -6,7 +6,11 @@ export default {
     "./src/**/*.{js,jsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "rgb(var(--primary) / <alpha-value>)",
+      }
+    },
   },
   plugins: [],
 }
