@@ -10,7 +10,7 @@ const Step1 = () => {
     setIswarning(true);
     return;
   }
-  navigate("/apply/step-2");
+  navigate("/register/step-2");
     }
     return (
         <div className = "flex flex-col gap-4">

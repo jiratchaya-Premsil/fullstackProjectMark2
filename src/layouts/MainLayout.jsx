@@ -1,11 +1,11 @@
 import {Link, Outlet} from 'react-router-dom';
 import CardDrawer from '../components/cardDrawer';
 import { useState, useEffect } from 'react';
+import {useAuthStore} from "../store/useAuthStore";
 
+const MainLayout = () => {
 
-const MainLayout = ({isLoggedIn}) => {
-
-
+    const {user} = useAuthStore();
 
     return (
         <div className = " min-h-screen transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
@@ -21,7 +21,7 @@ dark:border-gray-700 transition-colors duration-300">
 
  <div className="flex w-full justify-end">
 
-{!isLoggedIn ? (<Link to='/apply/step-1'>
+{!user ?  (<Link to='/login'>
 <button
        className = "px-4 py-2 bg-primary dark:bg-primary-dark rounded-md text-white">
         Login
@@ -29,7 +29,7 @@ dark:border-gray-700 transition-colors duration-300">
 </Link>
 ):( <Link to="/profile"
      >
-       <img src="defaultProfile.jpg" className = " rounded-full h-10 w-10 object-cover">
+       <img src="/defaultProfile.jpg" className = " rounded-full h-10 w-10 object-cover">
        </img>
       </Link>)}
 

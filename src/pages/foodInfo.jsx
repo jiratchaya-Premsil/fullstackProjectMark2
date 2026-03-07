@@ -15,32 +15,37 @@ export default function FoodInfo() {
   const handleGoBack = () => {
     navigate(-1); // Go back to the previous page
   };
-  const fetchFood = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(`https://dummyjson.com/recipes/${id}`);
-      if (res.ok) {
-       const data = await res.json();
-      setFood(data);
-    }else {
-      setError(res.message)
+const fetchFood = async () => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    const res = await fetch(`https://dummyjson.com/recipes/${id}`);
+
+    if (!res.ok) {
+      throw new Error(`Request failed: ${res.status}`);
     }
 
-    } catch (err) {
-      setError(err);
-      setFood(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const data = await res.json();
+    setFood(data);
 
-  useEffect(() => {
-    fetchFood();
-  }, [id]);
+  } catch (err) {
+    console.error(err);
+    setError(err.message);
+    setFood(null);
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  if (!id) return;
+  fetchFood();
+}, [id]);
 
   if (loading) return <p className="p-8">Loading...</p>;
-  if (error) return <p className="p-8 text-red-500">something went wrong : {error} </p>;
-  if (!food) return <p className="p-8 text-red-500">we cant find this recipy {error} </p>;
+  if (error) return <p className="p-8 text-red-500">something went wrong : {String(error)} </p>;
+  if (!food) return <p className="p-8 text-red-500">we cant find this recipy {String(error)} </p>;
 
   return (
     <div className="w-full flex flex-col md:flex-row">
@@ -50,7 +55,7 @@ export default function FoodInfo() {
                   sm:fixed sm:w-80">
 
     <button
-      onClick={() => navigate("/")}
+      onClick={() => {handleGoBack()}}
       className="border text-primary border-primary hover:bg-primary/10 px-4 py-2 rounded transition"
     >
       ← Back to Home

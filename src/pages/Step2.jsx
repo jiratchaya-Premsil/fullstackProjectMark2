@@ -29,7 +29,7 @@ const Step2 = () => {
     setIswarning(true);
     return;
   }
-  navigate("/apply/review");
+  navigate("/register/review");
 };
     return (
         <div className = "flex flex-col gap-4">
