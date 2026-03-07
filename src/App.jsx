@@ -10,34 +10,43 @@ import FormLayout from "./layouts/FormLayout";
 import Step1 from './pages/Step1'
 import Step2 from './pages/Step2'
 import Review from './pages/Review'
-import { useState,useEffect } from "react";
 
-
-
+import ProtectedRoute from './components/ProtectedRoute'
+import Login from './pages/Login'
+import AdminSettings from './pages/AdminSettings'
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const login = () => {
-    localStorage.setItem("isLoggedIn", "true");
-    setIsLoggedIn(true);
-    console.log("logged!");
-  };
   return (
     <ThemeProvider>
       <Routes>
-        <Route path="/" element={<MainLayout isLoggedIn={isLoggedIn} />}>
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<Foodspage />} />
-          <Route path="profile" element={<Profile/>}/>
+           <Route path="/login" element={<Login />} />
+          <Route path="profile" element={ <ProtectedRoute allowedRoles={["admin", "user"]}>
+              <Profile />
+            </ProtectedRoute>}/>
           <Route path="/recipy/:id" element={<FoodinFo />} />
           <Route path="task-test" element={<TaskOrchestrator/>}/>
 
-          <Route path="apply" element={<FormLayout />}>
+          <Route path="register" element={<FormLayout />}>
             <Route path="step-1" element={<Step1 />} />
             <Route path="step-2" element={<Step2 />} />
-            <Route path="review" element={<Review  login={login} />} />
+            <Route path="review" element={<Review  />} />
+
          </Route>
+
+
+
+         <Route
+          path="/admin-settings"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminSettings />
+            </ProtectedRoute>
+          }
+        />
 
         </Route>
 

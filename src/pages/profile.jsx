@@ -4,14 +4,23 @@ import RecipyThumbnail from '../components/recipyThumbnailCard';
 import CharacterCard from '../components/CharacterCard';
 import { useTheme } from '../context/ThemeContext';
 import ColorPicker from '../components/ColorPicker';
+import { Link } from 'react-router-dom';
+import { useAuthStore } from "../store/useAuthStore";
+import { useNavigate } from 'react-router-dom';
 export default function Profile() {
   const {darkMode, toggleTheme} = useTheme();
-    const [currentpage, setCurrentPage] = useState("MyRecipy")
-    const [foods, setFoods] = useState([]);
+ const {user , logout} = useAuthStore()
+  const [currentpage, setCurrentPage] = useState("MyRecipy")
+  const navigate = useNavigate();
+  const [foods, setFoods] = useState([]);
 
         const [loading, setLoading] = useState(false);
         const [error, setError] = useState(null);
 
+        const handlelogout = () => {
+       logout();
+        navigate('/');
+    }
     const fetchFoods = async () => {
         try {
         setLoading(true);
@@ -35,11 +44,11 @@ export default function Profile() {
     {/* LEFT SIDE */}
     <div className="gap-2 fixed flex flex-col items-center flex-shrink-0 w-56 px-4 py-8">
       <img
-        src="profile.png"
+        src="/defaultProfile.jpg"
         className="rounded-full h-48 w-48 object-cover"
       />
       <h2 className="mt-4 text-xl font-semibold">
-        Jiratchaya Premsil
+        {user.username}
       </h2>
       <CharacterCard/>
       <ColorPicker/>
@@ -50,6 +59,15 @@ export default function Profile() {
 >
   {darkMode ? "Light Mode" : "Dark Mode"}
 </button>
+{user?.role === 'admin' && (<Link to = "/admin-settings"
+className = "p-2 bg-primary dark:bg-primary-dark rounded-md font-bold text-white">
+      <button>
+        Go to adminDashboard
+      </button>
+</Link>)}
+
+<button onClick= {handlelogout}
+className = "border border-primary border-2 hover:bg-primary/5 transition-all duration-300 p-2 py-1 rounded-md">Log out</button>
     </div>
 
     {/* RIGHT SIDE */}
@@ -73,12 +91,12 @@ export default function Profile() {
       </div>
 
       {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500">{String(error)}</p>}
       {!loading && foods.length === 0 && (
         <p>No results found</p>
       )}
 
-      <div className="columns-2 md:columns-3 gap-4 space-y-4">
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {!loading &&
           foods.length > 0 &&
           foods.map((item) => (

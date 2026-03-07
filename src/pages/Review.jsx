@@ -1,15 +1,18 @@
 import { useParams, useNavigate } from "react-router-dom";
 import {useFormStore} from "../store/useFormStore";
 import PreferredRecipeCard from "../components/preferrecipyCard";
-const Review = ({login}) => {
+import { useAuthStore } from "../store/useAuthStore";
+const Review = () => {
     const {formData, resetForm} = useFormStore()
     const navigate = useNavigate();
+    const login = useAuthStore((state) => state.login);
+
     const handleNext = () => {
-   alert("Congratulation!");
-    localStorage.setItem("isLoggedIn", "true");
-  resetForm();
-login();
-  navigate("/");
+      login({username: formData.username, role: 'user'});
+
+        alert("Congratulation!");
+        resetForm();
+        navigate("/");
 };
     return (
         <div>

@@ -1,12 +1,22 @@
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useSearchParams } from "react-router-dom";
 import RecipyThumbnail from '../components/recipyThumbnailCard';
 const Foodspage= () => {
      const [foods, setFoods] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
+const [searchParams, setSearchParams] = useSearchParams();
+    const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const searchQuery = searchParams.get("search") || "";
+    const handleSearch = (e) => {
+  e.preventDefault();
+
+  setSearchParams(
+    searchTerm ? { search: searchTerm } : {}
+  );
+};
     const [debouncedSearch, setDebouncedSearch] = useState("");
 const fetchFoods = async () => {
     try {
@@ -36,29 +46,31 @@ const fetchFoods = async () => {
 
     // Filter using debounced value
     const filteredFoods = foods.filter((food) =>
-        food.name.toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
+  food.name.toLowerCase().includes(searchQuery.toLowerCase())
+);
     return (
         <div className=" w-full h-full">
-             <input
-        type="text"
-        placeholder="Search food..."
-        className="border p-2 rounded w-full mb-6"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+            <form onSubmit={handleSearch}>
+  <input
+    type="text"
+    placeholder="Search food..."
+    className="border p-2 rounded w-full mb-6"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+</form>
 
       {/* ⏳ Loading */}
       {loading && <p className="">Loading...</p>}
 
       {/* ❌ Error */}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500">{String(error)}</p>}
 
       {/* 🚫 No Results */}
       {!loading && filteredFoods.length === 0 && (
         <p>No results found for "{searchTerm}"</p>
       )}
-             <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+             <div className="columns-2 md:columns-4 lg:columns-5 gap-4 space-y-4">
         {!loading &&
           filteredFoods.length > 0 &&
           filteredFoods.map((item) => (
