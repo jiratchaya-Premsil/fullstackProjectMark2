@@ -1,10 +1,11 @@
 import {Link, Outlet} from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
+import CardDrawer from '../components/cardDrawer';
+import { useState, useEffect } from 'react';
 
 
+const MainLayout = ({isLoggedIn}) => {
 
-const MainLayout = () => {
-    const {darkMode, toggleTheme} = useTheme();
+
 
     return (
         <div className = " min-h-screen transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
@@ -20,17 +21,25 @@ dark:border-gray-700 transition-colors duration-300">
 
  <div className="flex w-full justify-end">
 
-        <Link to="/profile"
+{!isLoggedIn ? (<Link to='/apply/step-1'>
+<button
+       className = "px-4 py-2 bg-primary dark:bg-primary-dark rounded-md text-white">
+        Login
+        </button>
+</Link>
+):( <Link to="/profile"
      >
-       <img src="profile.png" className = " rounded-full h-10 w-10 object-cover">
+       <img src="defaultProfile.jpg" className = " rounded-full h-10 w-10 object-cover">
        </img>
-      </Link>
+      </Link>)}
+
+
       </div>
                 </div>
 
             </nav>
-            <main className= "p-8 pt-24"> <Outlet /></main>
-
+            <main className= "p-4 pt-20"> <Outlet /></main>
+            <CardDrawer/>
         </div>
     )
 }

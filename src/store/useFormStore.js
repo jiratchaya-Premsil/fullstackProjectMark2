@@ -2,11 +2,11 @@ import {create } from 'zustand';
 
 export const useFormStore = create ((set) => ({
     formData: {
-        firstName: "",
-        lastName: "",
+        username: "",
         email: "",
-        exprience: "",
-        skills: "",
+        password: "",
+        preferRecipy: [],
+        description: "",
 
     },
 
@@ -15,9 +15,9 @@ export const useFormStore = create ((set) => ({
     })),
 
     resetForm: () => set({ formData: {
-        firstName: "",
-        lastName: "",
+        username: "",
         email: "",
-        exprience: "",
-        skills: "",}})
+        password: "",
+        preferRecipy: [],
+        description: ""}})
 }))

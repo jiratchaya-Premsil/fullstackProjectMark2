@@ -1,20 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import CommentSection from "../components/CommentSection";
+import { useNavigate } from "react-router-dom";
+import { useCartStore } from "../store/useCartStore";
 export default function FoodInfo() {
+  const addToCart = useCartStore((state) => state.addToCart);
+
+
   const { id } = useParams();
   const [food, setFood] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
+  const handleGoBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
   const fetchFood = async () => {
     try {
       setLoading(true);
       const res = await fetch(`https://dummyjson.com/recipes/${id}`);
-      const data = await res.json();
+      if (res.ok) {
+       const data = await res.json();
       setFood(data);
+    }else {
+      setError(res.message)
+    }
+
     } catch (err) {
-      setError("Failed to fetch data");
+      setError(err);
+      setFood(null);
     } finally {
       setLoading(false);
     }
@@ -25,49 +39,62 @@ export default function FoodInfo() {
   }, [id]);
 
   if (loading) return <p className="p-8">Loading...</p>;
-  if (error) return <p className="p-8 text-red-500">{error}</p>;
-  if (!food) return null;
+  if (error) return <p className="p-8 text-red-500">something went wrong : {error} </p>;
+  if (!food) return <p className="p-8 text-red-500">we cant find this recipy {error} </p>;
 
   return (
-    <div className="w-full flex">
+    <div className="w-full flex flex-col md:flex-row">
 
-      {/* LEFT SIDE */}
-      <div className="fixed flex flex-col gap-4 items-start w-56 p-2 md:w-80">
-        <Link to="/">
-          <button className="border text-primary border-primary hover:bg-primary/10 px-4 py-2 rounded transition">
-            ← Back to Home
-          </button>
-        </Link>
+  {/* LEFT SIDE */}
+  <div className="flex flex-col gap-4 items-start w-full p-4
+                  sm:fixed sm:w-80">
 
-        <img src={food.image} className="rounded-lg w-full " />
-        <h2 className="text-xl font-semibold">{food.name}</h2>
+    <button
+      onClick={() => navigate("/")}
+      className="border text-primary border-primary hover:bg-primary/10 px-4 py-2 rounded transition"
+    >
+      ← Back to Home
+    </button>
 
-        <div className="flex flex-wrap gap-2">
-          {food.tags?.map((tag, index) => (
-            <p
-              key={index}
-              className="text-sm px-2 py-1 rounded-md border-2 border-primary bg-primary/10 dark:bg-primary/50 transition"
-            >
-              {tag}
-            </p>
-          ))}
-        </div>
-      </div>
+    <img src={food.image} className="rounded-lg w-full" />
+    <h2 className="text-xl font-semibold">{food.name}</h2>
 
-      {/* RIGHT SIDE */}
-      <div className="ml-56 flex-1 p-8 md:ml-80">
-        <h1 className="text-2xl font-bold mb-4">Instructions</h1>
-
-        {food.instructions?.map((step, index) => (
-          <div key={index} className="mb-4">
-            <h2 className="font-semibold">Step {index + 1}</h2>
-            <p>{step}</p>
-          </div>
-        ))}
-
-        <CommentSection/>
-      </div>
-
+    <div className="flex flex-wrap gap-2">
+      {food.tags?.map((tag, index) => (
+        <p
+          key={index}
+          className="text-sm px-2 py-1 rounded-md border-2 border-primary bg-primary/10 dark:bg-primary/50"
+        >
+          {tag}
+        </p>
+      ))}
     </div>
+    <div>
+<button
+        onClick={() => addToCart(food)}
+        className="bg-primary text-white px-4 py-2 rounded-md"
+      >
+        Add to Cart
+      </button>
+    </div>
+  </div>
+
+  {/* RIGHT SIDE */}
+  <div className="w-full p-2
+                  sm:ml-80 sm:p-8">
+
+    <h1 className="text-2xl font-bold mb-4">Instructions</h1>
+
+    {food.instructions?.map((step, index) => (
+      <div key={index} className="mb-4">
+        <h2 className="font-semibold">Step {index + 1}</h2>
+        <p>{step}</p>
+      </div>
+    ))}
+
+    <CommentSection />
+  </div>
+
+</div>
   );
 }
