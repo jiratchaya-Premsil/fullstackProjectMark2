@@ -19,7 +19,7 @@ export const useCartStore = create((set) => ({
           ),
         };
       }
-
+   
       return {
         cart: [...state.cart, { product, quantity: 1 }],
       };
