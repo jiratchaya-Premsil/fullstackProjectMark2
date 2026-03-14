@@ -14,7 +14,7 @@ import Review from './pages/Review'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import AdminSettings from './pages/AdminSettings'
-
+import CreatePostPage from "./pages/CreatePost";
 function App() {
 
 
@@ -27,9 +27,12 @@ function App() {
           <Route path="profile" element={ <ProtectedRoute allowedRoles={["admin", "user"]}>
               <Profile />
             </ProtectedRoute>}/>
+
           <Route path="/recipy/:id" element={<FoodinFo />} />
           <Route path="task-test" element={<TaskOrchestrator/>}/>
-
+          <Route path="create" element={ <ProtectedRoute allowedRoles={["admin", "user"]}>
+              <CreatePostPage />
+            </ProtectedRoute>}/>
           <Route path="register" element={<FormLayout />}>
             <Route path="step-1" element={<Step1 />} />
             <Route path="step-2" element={<Step2 />} />

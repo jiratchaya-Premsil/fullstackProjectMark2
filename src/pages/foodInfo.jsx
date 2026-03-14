@@ -3,12 +3,14 @@ import { useParams, Link } from "react-router-dom";
 import CommentSection from "../components/CommentSection";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../store/useCartStore";
-
+import LikeButton from '../components/likeButton'
+import { useAuthStore } from "../store/useAuthStore";
 export default function FoodInfo() {
   const addToCart = useCartStore((state) => state.addToCart);
+  const { myPost } = useAuthStore();
+ const { id } = useParams();
+  const localPost = myPost.find((p) => String(p.id) === String(id));
 
-
-  const { id } = useParams();
   const [food, setFood] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -41,8 +43,18 @@ const fetchFood = async () => {
 
 useEffect(() => {
   if (!id) return;
+
+  // check zustand posts first
+  const localPost = myPost.find((p) => String(p.id) === String(id));
+
+  if (localPost) {
+    setFood(localPost);
+    return;
+  }
+
+  // otherwise fetch from API
   fetchFood();
-}, [id]);
+}, [id, myPost]);
 
   if (loading) return <p className="p-8">Loading...</p>;
   if (error) return <p className="p-8 text-red-500">something went wrong : {String(error)} </p>;
@@ -63,7 +75,9 @@ useEffect(() => {
     </button>
 
     <img src={food.image} className="rounded-lg w-full" />
-    <h2 className="text-xl font-semibold">{food.name}</h2>
+    <h2 className="text-xl font-semibold">{food.name}
+      <LikeButton recipe={food}/>
+    </h2>
 
     <div className="flex flex-wrap gap-2">
       {food.tags?.map((tag, index) => (

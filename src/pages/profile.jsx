@@ -9,7 +9,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useNavigate } from 'react-router-dom';
 export default function Profile() {
   const {darkMode, toggleTheme} = useTheme();
- const {user , logout} = useAuthStore()
+ const {user , logout, likedPosts, myPost } = useAuthStore()
   const [currentpage, setCurrentPage] = useState("MyRecipy")
   const navigate = useNavigate();
   const [foods, setFoods] = useState([]);
@@ -90,16 +90,30 @@ className = "border border-primary border-2 hover:bg-primary/5 transition-all du
      onClick={() => setCurrentPage("MyRecipy")}>My recipe</button>
       </div>
 
+
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{String(error)}</p>}
       {!loading && foods.length === 0 && (
         <p>No results found</p>
       )}
-
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {!loading &&
-          foods.length > 0 &&
-          foods.map((item) => (
+          likedPosts.length > 0 &&currentpage == "likePage"  &&
+          likedPosts.map((item) => (
+            <RecipyThumbnail key={item.id} data={item} />
+          ))}
+      </div>
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">{String(error)}</p>}
+      {!loading && foods.length === 0 && (
+        <p>No results found</p>
+      )}
+        {!loading &&
+          myPost.length > 0 &&currentpage == "MyRecipy"  &&
+          myPost.map((item) => (
             <RecipyThumbnail key={item.id} data={item} />
           ))}
       </div>

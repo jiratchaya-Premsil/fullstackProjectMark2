@@ -19,8 +19,13 @@ dark:border-gray-700 transition-colors duration-300">
       </Link>
 
 
- <div className="flex w-full justify-end">
-
+ <div className="flex w-full justify-end gap-2">
+{user && (<Link to='/create'>
+<button
+       className = "px-4 py-2 bg-primary dark:bg-primary-dark rounded-md text-white">
+        Create
+        </button>
+</Link>)}
 {!user ?  (<Link to='/login'>
 <button
        className = "px-4 py-2 bg-primary dark:bg-primary-dark rounded-md text-white">
@@ -32,6 +37,7 @@ dark:border-gray-700 transition-colors duration-300">
        <img src="/defaultProfile.jpg" className = " rounded-full h-10 w-10 object-cover">
        </img>
       </Link>)}
+
 
 
       </div>
