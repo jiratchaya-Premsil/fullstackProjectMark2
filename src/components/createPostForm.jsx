@@ -7,6 +7,7 @@ export default function CreatePost() {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [tags, setTags] = useState("");
+  const [ingredients, setIngridents] = useState("")
   const [instructions, setInstructions] = useState("");
      const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -26,43 +27,52 @@ export default function CreatePost() {
       image: image,
       tags: tags.split(",").map((t) => t.trim()),
       instructions: instructions.split("\n"),
+      ingredients: ingredients.map((t) => t.trim())
     });
 
     setTitle("");
     setImage("");
     setTags("");
     setInstructions("");
+    setIngridents("")
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4">
-
+      <p className ="font-bold">Title</p>
       <input
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         className="border p-2"
       />
-        <div className = "flex gap-2">
-            Image:
+
+            <p className ="font-bold">Title</p>
             <input
         type="file"
         accept="image/*"
         onChange={handleImageUpload}
       />
-      {image && <img src={image} className="w-40 rounded" />}
+      {image && (<img src={image} className="w-40 rounded" />)}
 
-        </div>
 
+<p className ="font-bold">Tags (comma separated)</p>
       <input
-        placeholder="Tags (comma separated)"
+        placeholder="cake, fluffy"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
         className="border p-2"
       />
-
+      <p className ="font-bold">Ingridents (comma separated)</p>
+      <input
+        placeholder="2 eggs, 100ml of milk..."
+        value={ingredients}
+        onChange={(e) => setIngridents(e.target.value)}
+        className="border p-2"
+      />
+      <p className ="font-bold">Instructions (one per line)</p>
       <textarea
-        placeholder="Instructions (one per line)"
+        placeholder="mix eggs, flour and milk"
         value={instructions}
         onChange={(e) => setInstructions(e.target.value)}
         className="border p-2"

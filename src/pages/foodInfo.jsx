@@ -9,7 +9,7 @@ export default function FoodInfo() {
   const addToCart = useCartStore((state) => state.addToCart);
   const { myPost } = useAuthStore();
  const { id } = useParams();
-
+ const localPost = myPost.find((p) => String(p.id) === String(id));
 
   const [food, setFood] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -32,11 +32,15 @@ const fetchFood = async () => {
     }
 
     const data = await res.json();
+    console.log(res)
+    console.log(data)
     if (!data || data.message) {
+      console.log('got data')
       setFood(null);
       setError("Recipe not found");
       return;
     }
+    setFood(data);
   } catch (err) {
     console.error(err);
     setError(err.message);
@@ -84,6 +88,14 @@ useEffect(() => {
       <LikeButton recipe={food}/>
     </h2>
 
+    {food?.author !== undefined && (
+  <div>{food.author}</div>
+)}
+
+
+    {food.userId && (<div>
+      User{food.userId}
+    </div>)}
     <div className="flex flex-wrap gap-2">
       {food.tags?.map((tag, index) => (
         <p
@@ -105,14 +117,26 @@ useEffect(() => {
   </div>
 
   {/* RIGHT SIDE */}
-  <div className="w-full p-2
-                  sm:ml-80 sm:p-8">
+  <div className="w-3/4 p-2
+                  sm:ml-80 sm:p-8 flex flex-col gap-4">
 
-    <h1 className="text-2xl font-bold mb-4">Instructions</h1>
+
+    <h1 className="text-2xl font-bold mb-2 w-full">Ingridents</h1>
+    <div className = "flex flex-row flex-wrap gap-2 w-full">
+      {food.ingredients?.map((item, index) => (
+      <div key={index} >
+        <p className = "w-fit p-4 pr-8 rounded-md border border-gray-500 dark:border-white ">{index + 1}. {item}</p>
+      </div>
+    ))}
+    </div>
+
+
+
+    <h1 className="text-2xl font-bold ">Instructions</h1>
 
     {food.instructions?.map((step, index) => (
-      <div key={index} className="mb-4">
-        <h2 className="font-semibold">Step {index + 1}</h2>
+      <div key={index} >
+        <h2 className="font-semibold w-fit">Step {index + 1}</h2>
         <p>{step}</p>
       </div>
     ))}

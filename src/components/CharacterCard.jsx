@@ -35,7 +35,7 @@ const [random, setRandom] = useState(0);
             <h2 className='font-bold'>{name}</h2>
 
             <p > random recipy:</p>
-            <p className= "px-3 py-1 text-white w-fit rounded-sm font-bold"
+            <p className= "px-3 py-1  w-fit rounded-sm font-bold transition-all duration-300"
              style = {{color: tablerandom[random].color}}>
              {tablerandom[random].category}
              </p>

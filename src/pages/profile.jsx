@@ -90,33 +90,50 @@ className = "border border-primary border-2 hover:bg-primary/5 transition-all du
      onClick={() => setCurrentPage("MyRecipy")}>My recipe</button>
       </div>
 
+      {currentpage == "likePage" && (<div >
 
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+      {loading && <p className = "w-full text-center">Loading...</p>}
+      {error && <p className="text-red-500 w-full text-center">{String(error)}</p>}
 
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{String(error)}</p>}
-      {!loading && foods.length === 0 && (
-        <p>No results found</p>
+      {!loading && likedPosts.length === 0 && (
+        <p className = "w-full text-center">you havn't like any post yet</p>
       )}
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 w-full">
         {!loading &&
           likedPosts.length > 0 &&currentpage == "likePage"  &&
           likedPosts.map((item) => (
+
             <RecipyThumbnail key={item.id} data={item} />
+
           ))}
       </div>
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
 
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{String(error)}</p>}
-      {!loading && foods.length === 0 && (
-        <p>No results found</p>
+      </div>
+)}
+
+
+
+
+      {currentpage == "MyRecipy" && (<div className ="w-full">
+
+      {loading && <p className ="w-full text-center">Loading...</p>}
+      {error && <p className="text-red-500 w-full text-center">{String(error)}</p>}
+      {!loading && myPost.length === 0 && (
+        <p className ="w-full text-center">you havnt create any pose yet</p>
       )}
         {!loading &&
           myPost.length > 0 &&currentpage == "MyRecipy"  &&
-          myPost.map((item) => (
+
+         (<div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+          { myPost.map((item) => (
             <RecipyThumbnail key={item.id} data={item} />
           ))}
-      </div>
+         </div>
+
+)
+          }
+      </div>)}
+
     </div>
 
   </div>
