@@ -43,7 +43,7 @@ export default function CommentItem({comment,addReply,updateRating, depth =0}) {
                 ))}
             </div>
             )}
-      <div className="p-3 border rounded bg-gray-100">
+      <div className="p-3 border rounded bg-gray-100 dark:bg-gray-900">
         <p className = "font-light italic text-sm">{comment.user}</p>
         <p>{comment.text}</p>
 

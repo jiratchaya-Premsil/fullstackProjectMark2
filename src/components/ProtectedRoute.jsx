@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
   // Not logged in
   if (!user) {
-    console.log("awe")
+    
     return <Navigate to="/login" replace />;
   }
 
