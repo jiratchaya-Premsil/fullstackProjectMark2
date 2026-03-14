@@ -9,7 +9,7 @@ export default function FoodInfo() {
   const addToCart = useCartStore((state) => state.addToCart);
   const { myPost } = useAuthStore();
  const { id } = useParams();
-  const localPost = myPost.find((p) => String(p.id) === String(id));
+
 
   const [food, setFood] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,8 @@ const fetchFood = async () => {
     setLoading(true);
     setError(null);
 
+
+
     const res = await fetch(`https://dummyjson.com/recipes/${id}`);
 
     if (!res.ok) {
@@ -30,8 +32,11 @@ const fetchFood = async () => {
     }
 
     const data = await res.json();
-    setFood(data);
-
+    if (!data || data.message) {
+      setFood(null);
+      setError("Recipe not found");
+      return;
+    }
   } catch (err) {
     console.error(err);
     setError(err.message);
