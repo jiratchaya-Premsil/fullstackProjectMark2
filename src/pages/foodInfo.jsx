@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import CommentSection from "../components/CommentSection";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../store/useCartStore";
+
 export default function FoodInfo() {
   const addToCart = useCartStore((state) => state.addToCart);
 

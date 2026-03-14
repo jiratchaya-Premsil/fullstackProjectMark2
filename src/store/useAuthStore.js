@@ -5,15 +5,21 @@ export const useAuthStore = create(
   persist(
     (set) => ({
       user: null,
+      myPost: [],
+      likeedPost:[],
 
       login: (userData) =>
         set(() => ({
           user: userData,
+           myPost: [],
+          likeedPost:[],
         })),
 
       logout: () =>
         set(() => ({
           user: null,
+           myPost: [],
+      likeedPost:[],
         })),
     }),
     {

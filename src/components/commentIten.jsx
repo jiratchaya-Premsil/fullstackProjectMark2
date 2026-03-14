@@ -77,6 +77,7 @@ export default function CommentItem({comment,addReply,updateRating, depth =0}) {
           key={child.id}
           comment={child}
           addReply={addReply}
+          updateRating={updateRating}
           depth={depth + 1}
         />
       ))}

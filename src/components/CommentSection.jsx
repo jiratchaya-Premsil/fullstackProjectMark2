@@ -1,49 +1,54 @@
 import { useState } from "react";
 import CommentItem from "./commentIten";
 import { useAuthStore } from "../store/useAuthStore";
-
+import StarRating from "./StarRating";
+import { set } from "react-hook-form";
 export default function CommentSection() {
    const {user , logout} = useAuthStore()
   const [comments, setComments] = useState([]);
   const [newCommentText, setNewCommentText] = useState("");
-  const addReply = (parentId, text) => {
-    const newComment = {
-      user:user,
-      id: Date.now(),
-      text,
-      replies: [],
-    };
-
-    const addComment = (text) => {
+  const [rating, setRating] = useState(0)
+  const addComment = (text) => {
   const newComment = {
-    user: user,
+    user: user.username,
     id: Date.now(),
     text,
-    rating: 0,
+    rating: rating,
+    replies: [],
+  };
+setComments((prev) => [...prev, newComment]);
+
+
+};
+  const addReply = (parentId, text) => {
+  const newReply = {
+    user: user.username,
+    id: Date.now(),
+    text,
     replies: [],
   };
 
-  setComments((prev) => [...prev, newComment]);
-};
-
-    const updateComments = (commentsList) => {
-      return commentsList.map((comment) => {
-        if (comment.id === parentId) {
-          return {
-            ...comment,
-            replies: [...comment.replies, newComment], // NO MUTATION
-          };
-        }
-
+  const updateComments = (commentsList) => {
+    return commentsList.map((comment) => {
+      if (comment.id === parentId) {
         return {
           ...comment,
-          replies: updateComments(comment.replies),
+          replies: [...comment.replies, newReply],
         };
-      });
-    };
+      }
 
-    setComments((prev) => updateComments(prev));
+      return {
+        ...comment,
+        replies: updateComments(comment.replies),
+      };
+    });
   };
+
+  setComments((prev) => updateComments(prev));
+};
+
+
+
   const updateRating = (commentId, ratingValue) => {
   const updateComments = (commentsList) => {
     return commentsList.map((comment) => {
@@ -67,6 +72,7 @@ export default function CommentSection() {
   return (
     <div>
   <div className="mb-4">
+    <StarRating rating={rating} setRating={setRating}/>
     <input
       type="text"
       placeholder="Write a comment..."
@@ -80,8 +86,9 @@ export default function CommentSection() {
         if (!newCommentText.trim()) return;
         addComment(newCommentText);
         setNewCommentText("");
+        setRating(0);
       }}
-      className="bg-blue-500 text-white px-3 py-1 rounded"
+      className="bg-primary/90 transition-all duration-300 hover:bg-primary dark:bg-primary-dark/90 dark:hover:bg-primary-dark text-white px-3 py-1 rounded"
     >
       Create Comment
     </button>
