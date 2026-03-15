@@ -25,7 +25,7 @@ const ingredientCount = item.product.ingredients?.length || 0;
         <button className=" gap-2 flex w-full  px-4 py-3"
         onClick={() => setOpen(!open)}
        >
-             <span>{allChecked && "✅ "}
+             <span className ="text-left">{allChecked && "✅ "}
 {item.product.name}</span>
                 <span>x{item.quantity}</span>
         </button>

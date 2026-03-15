@@ -74,7 +74,7 @@ useEffect(() => {
 
   {/* LEFT SIDE */}
   <div className="flex flex-col gap-4 items-start w-full p-4
-                  sm:fixed sm:w-80">
+                  sm:fixed sm:w-80 overflow-y-auto">
 
     <button
       onClick={() => {handleGoBack()}}

@@ -53,8 +53,10 @@ const fetchFoods = async () => {
       const res = await fetch("https://dummyjson.com/recipes");
       const data = await res.json();
       setFoods(data.recipes);
+      setError("");
     } catch (err) {
       setError("Failed to fetch data");
+      setFoods([]);
     } finally {
       setLoading(false);
     }
@@ -132,11 +134,11 @@ const fetchFoods = async () => {
       {loading && <p className="">Loading...</p>}
 
       {/* ❌ Error */}
-      {error && <p className="text-red-500">{String(error)}</p>}
+      {error && <p className="text-primary w-full text-center">{String(error)}</p>}
 
       {/* 🚫 No Results */}
-      {!loading && filteredFoods.length === 0 && (
-        <p>No results found for "{searchTerm}"</p>
+      {(!loading && filteredFoods.length === 0 && !error )&& (
+        <p className="text-primary w-full text-center">No results found for "{searchTerm}"</p>
       )}
              <div className="columns-2 md:columns-4 lg:columns-5 gap-4 space-y-4">
         {!loading &&
