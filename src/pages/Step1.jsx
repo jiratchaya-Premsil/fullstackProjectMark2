@@ -33,9 +33,9 @@ const Step1 = () => {
                     <input
                     className="p-2 border border-zinc-400 rounded-lg w-full"
                     type="text"
-                    value={formData.password}
+                    value={formData.email}
                     onChange={(e) =>
-                        updateFormData({ password: e.target.value })
+                        updateFormData({ email: e.target.value })
                     }
                     placeholder="Enter your Email"
                     />
@@ -44,9 +44,9 @@ const Step1 = () => {
                     <span>Password: </span>
                      <input
                      className="w-full p-2 border border-zinc-400 rounded-lg"
-                     type="text"
-                     value= {formData.email}
-                     onChange={(e) => updateFormData({email: e.target.value})}
+                     type="password"
+                     value= {formData.password}
+                     onChange={(e) => updateFormData({password: e.target.value})}
                      placeholder="Enter your Password"/>
 
 

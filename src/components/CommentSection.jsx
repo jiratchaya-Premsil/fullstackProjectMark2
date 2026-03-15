@@ -78,7 +78,7 @@ setComments((prev) => [...prev, newComment]);
       placeholder="Write a comment..."
       value={newCommentText}
       onChange={(e) => setNewCommentText(e.target.value)}
-      className="border p-2 mr-2"
+      className="border p-2 mr-2 dark:bg-gray-800"
     />
 
     <button

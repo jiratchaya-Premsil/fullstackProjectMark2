@@ -59,7 +59,7 @@ export default function CommentItem({comment,addReply,updateRating, depth =0}) {
             <input
               value={replyText}
               onChange={(e) => setreplyText(e.target.value)}
-              className="border p-1 mr-2"
+              className="border p-1 mr-2 dark:bg-gray-800"
             />
             <button
               onClick={handleReply}

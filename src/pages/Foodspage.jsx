@@ -108,7 +108,7 @@ const fetchFoods = async () => {
       {suggestions.map((word, index) => (
         <li
           key={index}
-          className="p-4 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer flex gap-4 w-full md:w-1/2"
+          className="p-4 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer flex gap-4 w-full"
           onClick={() => {
             setSearchTerm(word);
             setSearchParams({ search: word });

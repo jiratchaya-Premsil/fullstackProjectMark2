@@ -45,7 +45,8 @@ dark:border-gray-700 transition-colors duration-300">
 
             </nav>
             <main className= "p-4 pt-20"> <Outlet /></main>
-            <CardDrawer/>
+            {user && ( <CardDrawer/>)}
+
         </div>
     )
 }

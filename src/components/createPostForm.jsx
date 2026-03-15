@@ -21,13 +21,13 @@ export default function CreatePost() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+
     createPost({
       name: title,
       image: image,
       tags: tags.split(",").map((t) => t.trim()),
       instructions: instructions.split("\n"),
-      ingredients: ingredients.map((t) => t.trim())
+      ingredients:  ingredients.split(",").map((t) => t.trim())
     });
 
     setTitle("");
@@ -38,16 +38,16 @@ export default function CreatePost() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4 ">
       <p className ="font-bold">Title</p>
       <input
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="border p-2"
+        className="border p-2 dark:bg-gray-900"
       />
 
-            <p className ="font-bold">Title</p>
+            <p className ="font-bold">Image</p>
             <input
         type="file"
         accept="image/*"
@@ -61,24 +61,24 @@ export default function CreatePost() {
         placeholder="cake, fluffy"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
-        className="border p-2"
+        className="border p-2 dark:bg-gray-900"
       />
       <p className ="font-bold">Ingridents (comma separated)</p>
       <input
         placeholder="2 eggs, 100ml of milk..."
         value={ingredients}
         onChange={(e) => setIngridents(e.target.value)}
-        className="border p-2"
+        className="border p-2 dark:bg-gray-900"
       />
       <p className ="font-bold">Instructions (one per line)</p>
       <textarea
         placeholder="mix eggs, flour and milk"
         value={instructions}
         onChange={(e) => setInstructions(e.target.value)}
-        className="border p-2"
+        className="border p-2 dark:bg-gray-900"
       />
 
-      <button className="bg-blue-500 text-white p-2 rounded">
+      <button className="bg-primary text-white p-2 rounded">
         Create Post
       </button>
     </form>

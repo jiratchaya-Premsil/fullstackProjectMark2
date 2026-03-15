@@ -7,7 +7,7 @@ import LikeButton from '../components/likeButton'
 import { useAuthStore } from "../store/useAuthStore";
 export default function FoodInfo() {
   const addToCart = useCartStore((state) => state.addToCart);
-  const { myPost } = useAuthStore();
+  const {user, myPost } = useAuthStore();
  const { id } = useParams();
  const localPost = myPost.find((p) => String(p.id) === String(id));
 
@@ -32,17 +32,16 @@ const fetchFood = async () => {
     }
 
     const data = await res.json();
-    console.log(res)
-    console.log(data)
+
     if (!data || data.message) {
-      console.log('got data')
+     
       setFood(null);
       setError("Recipe not found");
       return;
     }
     setFood(data);
   } catch (err) {
-    console.error(err);
+
     setError(err.message);
     setFood(null);
   } finally {
@@ -66,8 +65,8 @@ useEffect(() => {
 }, [id, myPost]);
 
   if (loading) return <p className="p-8">Loading...</p>;
-  if (error) return <p className="p-8 text-red-500">something went wrong : {String(error)} </p>;
-  if (!food) return <p className="p-8 text-red-500">we cant find this recipy {String(error)} </p>;
+  if (error) return <p className="p-8 text-red-500 w-full text-center">something went wrong : {String(error)} </p>;
+  if (!food) return <p className="p-8 text-red-500 w-full text-center">we cant find this recipy {String(error)} </p>;
 
   return (
     <div className="w-full flex flex-col md:flex-row">
@@ -108,7 +107,11 @@ useEffect(() => {
     </div>
     <div>
 <button
-        onClick={() => addToCart(food)}
+        onClick={() => {
+          if (!user) {
+        navigate("/login");
+        return;
+      }addToCart(food)}}
         className="bg-primary text-white px-4 py-2 rounded-md"
       >
         Add to Cart
